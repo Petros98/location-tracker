@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Location Tracker</string>
+    <string name="start_tracking">Start Tracking</string>
+    <string name="stop_tracking">Stop Tracking</string>
+    <string name="permissions_dialog_title">Change Permissions in Settings</string>
+    <string name="permissions_dialog_message">Please allow permissions</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">SETTINGS</string>
+</resources>
