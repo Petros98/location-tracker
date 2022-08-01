@@ -1,5 +1,6 @@
 package task.gg.locationtracker.data.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -16,7 +17,7 @@ import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LocationService: Service() {
+class LocationService : Service() {
 
     @Inject
     lateinit var repository: LocationRepository
@@ -25,19 +26,15 @@ class LocationService: Service() {
 
     override fun onCreate() {
         super.onCreate()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotification()
-        } else {
-//            startService(Intent(applicationContext, LocationService::class.java))
-        }
+        createNotification()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotification() {
-        val builder: NotificationCompat.Builder =
-            NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setOngoing(false)
-                .setSmallIcon(R.mipmap.ic_launcher)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val builder: NotificationCompat.Builder =
+                NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setOngoing(false)
+                    .setSmallIcon(R.mipmap.ic_launcher)
 
             val notificationManager: NotificationManager =
                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -49,6 +46,15 @@ class LocationService: Service() {
             notificationChannel.description = NOTIFICATION_CHANNEL_ID
             notificationManager.createNotificationChannel(notificationChannel)
             startForeground(1, builder.build())
+        } else {
+            val builder = NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+
+            val notification: Notification = builder.build()
+            startForeground(1, notification)
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {

@@ -7,6 +7,7 @@ import android.content.IntentSender
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Bundle
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.common.api.Status
@@ -25,11 +26,11 @@ object LocationHelper {
                 onLocationChange(p0)
             }
 
-            override fun onProviderDisabled(provider: String) {
-            }
+            override fun onProviderDisabled(provider: String) {}
 
-            override fun onProviderEnabled(provider: String) {
-            }
+            override fun onProviderEnabled(provider: String) {}
+
+            override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
         }
         mLocationManager.requestLocationUpdates(
             LocationManager.GPS_PROVIDER,
